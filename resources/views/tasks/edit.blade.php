@@ -1,45 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Task</title>
+@extends('layouts.app')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@section('title', 'Edit Task')
 
-<body>
+@section('content')
 
-<div class="container mt-5">
+<h1 class="page-title">Edit Task</h1>
 
-    <div class="card">
+<div class="row justify-content-center">
 
-        <div class="card-header">
-            Edit Task
-        </div>
+    <div class="col-lg-7">
 
-        <div class="card-body">
+        <div class="card shadow">
 
-            <form action="{{ route('tasks.update', $task->id) }}" method="POST">
+            <div class="card-header">
+                <i class="fas fa-edit me-2"></i>
+                Update Task Information
+            </div>
 
-                @csrf
-                @method('PUT')
+            <div class="card-body">
 
-                <label class="form-label">Task</label>
+                <form action="{{ route('tasks.update', $task->id) }}" method="POST">
 
-                <input type="text"
-                       name="task"
-                       class="form-control mb-3"
-                       value="{{ $task->task }}">
+                    @csrf
+                    @method('PUT')
 
-                <button type="submit" class="btn btn-primary">
-                    Update Task
-                </button>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Task Name</label>
 
-                <a href="{{ route('tasks.index') }}" class="btn btn-secondary">
-                    Back
-                </a>
+                        <input
+                            type="text"
+                            name="task"
+                            class="form-control"
+                            value="{{ $task->task }}"
+                            placeholder="Enter task name"
+                            required
+                        >
+                    </div>
 
-            </form>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i>
+                        Update Task
+                    </button>
+
+                    <a href="{{ route('tasks.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i>
+                        Back
+                    </a>
+
+                </form>
+
+            </div>
 
         </div>
 
@@ -47,5 +57,4 @@
 
 </div>
 
-</body>
-</html>
+@endsection

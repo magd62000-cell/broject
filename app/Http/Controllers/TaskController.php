@@ -7,15 +7,19 @@ use App\Models\Task;
 
 class TaskController extends Controller
 {
-    // عرض المهام
-    public function index()
-    {
-        $tasks = Task::all();
 
-        return view('tasks.index', compact('tasks'));
+    public function index(Request $request)
+    {
+        $search = $request->search;
+
+        $tasks = Task::when($search, function ($query) use ($search) {
+            $query->where('task', 'like', '%' . $search . '%');
+        })->get();
+
+        return view('tasks.index', compact('tasks', 'search'));
     }
 
-    // إضافة مهمة
+
     public function store(Request $request)
     {
         $request->validate([
@@ -29,7 +33,7 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    // تعديل المهمة
+
     public function edit($id)
     {
         $task = Task::findOrFail($id);
@@ -37,7 +41,7 @@ class TaskController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
-    // حفظ التعديل
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -53,7 +57,7 @@ class TaskController extends Controller
         return redirect()->route('tasks.index');
     }
 
-    // حذف المهمة
+    
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
